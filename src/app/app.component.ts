@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { IAppState } from "./store";
-import { CounterActions } from './app.actions';
-import { NgRedux } from '@angular-redux/store';
+import { CounterActions } from './counter.actions';
 import {
   LoadUsersEpic,
   UserData
@@ -17,13 +15,12 @@ export class AppComponent extends SupervisedSubscriptions {
   count: number;
   users: any[] = [];
 
-  constructor(private readonly ngRedux: NgRedux<IAppState>,
-              private readonly actions: CounterActions,
+  constructor(private readonly counterActions: CounterActions,
               private readonly loadUsersEpic: LoadUsersEpic) {
     super();
-    this.unsubscribeAtDestroy(ngRedux.select<number>('count')
+    this.unsubscribeAtDestroy(this.counterActions.stateSlice
       .subscribe(newCount => this.count = newCount));
-    this.unsubscribeAtDestroy(this.loadUsersEpic.stateSelect
+    this.unsubscribeAtDestroy(this.loadUsersEpic.stateSlice
       .subscribe((newUsers: UserData) => this.users = newUsers.data));
   }
 
@@ -32,10 +29,10 @@ export class AppComponent extends SupervisedSubscriptions {
   }
 
   increment() {
-    this.actions.increment();
+    this.counterActions.increment();
   }
 
   decrement() {
-    this.actions.decrement();
+    this.counterActions.decrement();
   }
 }

@@ -5,6 +5,10 @@ import { Action } from 'redux';
 
 @Injectable()
 export class CounterActions {
+  readonly StateSliceName = 'count';
+
+  readonly stateSlice = this.redux.select<number>('count');
+
   constructor(private readonly redux: NgRedux<IAppState>) {
   }
 
@@ -14,6 +18,17 @@ export class CounterActions {
 
   decrement(): void {
     this.redux.dispatch(DecrementActionDef.create());
+  }
+
+  readonly reducer = (lastState: number = 0, action: Action) => {
+    switch (action.type) {
+      case IncrementActionDef.TYPE:
+        return lastState + 1;
+      case DecrementActionDef.TYPE:
+        return lastState - 1;
+      default:
+        return lastState
+    }
   }
 }
 

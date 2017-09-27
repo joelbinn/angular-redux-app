@@ -16,9 +16,10 @@ export class LoadUsersEpic extends LoadEpic<any[], UserData> {
     super(redux);
   }
 
-  get name() {
+  get StateSliceName() {
     return 'users';
-  };
+  }
+
 
   doLoad(): Observable<any[]> {
     return this.http.get<any[]>('https://jsonplaceholder.typicode.com/users');
@@ -37,6 +38,6 @@ export class LoadUsersEpic extends LoadEpic<any[], UserData> {
     }
   };
 
-  stateSelect = this.redux.select<UserData>('users');
+  stateSlice = this.redux.select<UserData>('users');
 }
 

@@ -11,13 +11,13 @@ export abstract class LoadEpic<P, S> {
   constructor(protected readonly redux: NgRedux<S>) {
   }
 
-  abstract readonly name: string;
+  abstract readonly StateSliceName: string;
 
-  readonly LoadStart: string = this.name.toUpperCase() + '_LOAD_START';
+  readonly LoadStart: string = this.StateSliceName.toUpperCase() + '_LOAD_START';
 
-  readonly LoadSuccess: string = this.name.toUpperCase() + '_LOAD_SUCCESS';
+  readonly LoadSuccess: string = this.StateSliceName.toUpperCase() + '_LOAD_SUCCESS';
 
-  readonly LoadFailed: string = this.name.toUpperCase() + '_LOAD_FAILED';
+  readonly LoadFailed: string = this.StateSliceName.toUpperCase() + '_LOAD_FAILED';
 
   readonly definition = (action$: ActionsObservable<any>) => {
     return action$.ofType(this.LoadStart)
@@ -36,6 +36,6 @@ export abstract class LoadEpic<P, S> {
 
   abstract reducer: (lastState: S, action: Action) => S;
 
-  abstract stateSelect: Observable<S>
+  abstract stateSlice: Observable<S>
 }
 
