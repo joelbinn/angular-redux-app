@@ -7,7 +7,10 @@ import {
   NgReduxModule
 } from '@angular-redux/store';
 import { createLogger } from 'redux-logger';
-import { createEpicMiddleware } from 'redux-observable';
+import {
+  combineEpics,
+  createEpicMiddleware
+} from 'redux-observable';
 import { AppComponent } from './app.component';
 import {
   IAppState,
@@ -19,6 +22,7 @@ import {
   combineReducers,
   ReducersMapObject
 } from 'redux';
+import { LoadPostsEpic } from './load-posts-epic';
 
 @NgModule({
   declarations: [
@@ -31,25 +35,28 @@ import {
   ],
   providers: [
     CounterActions,
-    LoadUsersEpic
+    LoadUsersEpic,
+    LoadPostsEpic
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(private readonly ngRedux: NgRedux<IAppState>,
-              private readonly devTools: DevToolsExtension,
-              private readonly loadUsersEpic: LoadUsersEpic,
-              private readonly counterActions: CounterActions) {
+  constructor(ngRedux: NgRedux<IAppState>,
+              devTools: DevToolsExtension,
+              loadUsersEpic: LoadUsersEpic,
+              loadPostsEpic: LoadPostsEpic,
+              counterActions: CounterActions) {
     const storeEnhancers = devTools.isEnabled() ?
       [devTools.enhancer()] : [];
 
     const reducers: ReducersMapObject = {};
-    reducers[counterActions.StateSliceName] = this.counterActions.reducer;
-    reducers[loadUsersEpic.StateSliceName] = this.loadUsersEpic.reducer;
+    reducers[counterActions.StateSliceName] = counterActions.reducer;
+    reducers[loadUsersEpic.StateSliceName] = loadUsersEpic.reducer;
+    reducers[loadPostsEpic.StateSliceName] = loadPostsEpic.reducer;
     ngRedux.configureStore(
       combineReducers<IAppState>(reducers),
       INITIAL_STATE,
-      [createLogger(), createEpicMiddleware(this.loadUsersEpic.definition)],
+      [createLogger(), createEpicMiddleware(combineEpics(loadUsersEpic.definition, loadPostsEpic.definition))],
       storeEnhancers
     )
   }

@@ -7,7 +7,7 @@ import { Action } from 'redux';
 export class CounterActions {
   readonly StateSliceName = 'count';
 
-  readonly stateSlice = this.redux.select<number>('count');
+  readonly stateSlice = this.redux.select<number>(this.StateSliceName);
 
   constructor(private readonly redux: NgRedux<IAppState>) {
   }
