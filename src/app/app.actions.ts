@@ -15,10 +15,6 @@ export class CounterActions {
   decrement(): void {
     this.redux.dispatch(DecrementActionDef.create());
   }
-
-  fetchUsers(): void {
-    this.redux.dispatch(FetchUsersActionDef.create());
-  }
 }
 
 export abstract class IncrementActionDef {
@@ -36,41 +32,6 @@ export abstract class DecrementActionDef {
   static create(): Action {
     return {
       type: DecrementActionDef.TYPE
-    };
-  }
-}
-
-export abstract class FetchUsersActionDef {
-  static readonly TYPE = 'FETCH_USERS';
-
-  static create(): Action {
-    return {
-      type: FetchUsersActionDef.TYPE
-    };
-  }
-}
-
-export abstract class FetchUsersFailedActionDef {
-  static readonly TYPE = 'FETCH_USERS_FAILED';
-
-  static create(): Action {
-    return {
-      type: FetchUsersFailedActionDef.TYPE
-    };
-  }
-}
-
-export interface UsersAction extends Action {
-  users: any[];
-}
-
-export abstract class FetchUsersSuccessActionDef {
-  static readonly TYPE = 'FETCH_USERS_SUCCESS';
-
-  static create(users: any[]): UsersAction {
-    return {
-      type: FetchUsersSuccessActionDef.TYPE,
-      users: users
     };
   }
 }

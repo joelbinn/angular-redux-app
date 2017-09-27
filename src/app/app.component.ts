@@ -2,7 +2,10 @@ import { Component } from '@angular/core';
 import { IAppState } from "./store";
 import { CounterActions } from './app.actions';
 import { NgRedux } from '@angular-redux/store';
-import { LoadUsersEpic } from './load-users-epic';
+import {
+  LoadUsersEpic,
+  UserData
+} from './load-users-epic';
 import { SupervisedSubscriptions } from './supervised-subscriptions';
 
 @Component({
@@ -21,7 +24,7 @@ export class AppComponent extends SupervisedSubscriptions {
     this.unsubscribeAtDestroy(ngRedux.select<number>('count')
       .subscribe(newCount => this.count = newCount));
     this.unsubscribeAtDestroy(this.loadUsersEpic.stateSelect
-      .subscribe(newUsers => this.users = newUsers));
+      .subscribe((newUsers: UserData) => this.users = newUsers.data));
   }
 
   fetchUsers() {

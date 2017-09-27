@@ -1,35 +1,31 @@
 import { Action } from 'redux';
 import {
   DecrementActionDef,
-  FetchUsersSuccessActionDef,
-  IncrementActionDef,
-  UsersAction,
+  IncrementActionDef
 } from './app.actions';
 import { Injectable } from '@angular/core';
-import { LoadUsersEpic } from './load-users-epic';
+import { UserData } from './load-users-epic';
 
 export interface IAppState {
   count: number;
-  users: any[];
+  users: UserData;
 }
 
 export const INITIAL_STATE: IAppState = {
   count: 0,
-  users: []
+  users: {
+    data: []
+  }
 };
 
 @Injectable()
-export class RootReducer {
-  constructor(private readonly loadUsersEpic: LoadUsersEpic) {}
-
-  readonly body = (lastState: IAppState, action: Action) => {
+export class CountReducer {
+  readonly body = (lastState: number = 0, action: Action) => {
     switch (action.type) {
       case IncrementActionDef.TYPE:
-        return {...lastState, count: lastState.count + 1};
+        return lastState + 1;
       case DecrementActionDef.TYPE:
-        return {...lastState, count: lastState.count - 1};
-      case this.loadUsersEpic.type:
-        return this.loadUsersEpic.reduce(lastState, action);
+        return lastState - 1;
       default:
         return lastState
     }

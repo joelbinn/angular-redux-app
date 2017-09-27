@@ -12,10 +12,14 @@ import { AppComponent } from './app.component';
 import {
   IAppState,
   INITIAL_STATE,
-  RootReducer
+  CountReducer
 } from './store';
 import { CounterActions } from './app.actions';
 import { LoadUsersEpic } from './load-users-epic';
+import {
+  combineReducers,
+  ReducersMapObject
+} from 'redux';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,7 @@ import { LoadUsersEpic } from './load-users-epic';
   providers: [
     CounterActions,
     LoadUsersEpic,
-    RootReducer
+    CountReducer
   ],
   bootstrap: [AppComponent]
 })
@@ -37,12 +41,15 @@ export class AppModule {
   constructor(private readonly ngRedux: NgRedux<IAppState>,
               private readonly devTools: DevToolsExtension,
               private readonly loadUsersEpic: LoadUsersEpic,
-              private readonly rootReducer: RootReducer) {
+              private readonly countReducer: CountReducer) {
     const storeEnhancers = devTools.isEnabled() ?
       [devTools.enhancer()] : [];
 
+    const reducers: ReducersMapObject = {};
+    reducers['count'] = this.countReducer.body;
+    reducers[loadUsersEpic.name] = this.loadUsersEpic.reducer;
     ngRedux.configureStore(
-      rootReducer.body,
+      combineReducers<IAppState>(reducers),
       INITIAL_STATE,
       [createLogger(), createEpicMiddleware(this.loadUsersEpic.definition)],
       storeEnhancers
