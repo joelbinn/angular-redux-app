@@ -10,6 +10,10 @@ export interface PostData {
   error?: string;
 }
 
+export const INITIAL_POST_DATA: PostData = {
+  data: []
+};
+
 @Injectable()
 export class LoadPostsEpic extends LoadEpic<any[], PostData> {
   constructor(redux: NgRedux<PostData>, private readonly http: HttpClient) {

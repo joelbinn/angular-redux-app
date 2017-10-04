@@ -10,6 +10,10 @@ export interface UserData {
   error?: string;
 }
 
+export const INITIAL_USER_DATA: UserData = {
+  data: []
+};
+
 @Injectable()
 export class LoadUsersEpic extends LoadEpic<any[], UserData> {
   constructor(redux: NgRedux<UserData>, private readonly http: HttpClient) {
