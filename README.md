@@ -1,3 +1,5 @@
+https://travis-ci.org/travis-ci/travis-web.svg?branch=master
+
 # AngularReduxApp
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.3.
