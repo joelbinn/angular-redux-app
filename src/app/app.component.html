@@ -1,15 +1,21 @@
-<div>
+<md-toolbar color="primary">
+  Angular Redux App
+</md-toolbar>
+<hr>
+<input type="number" [value]="count" (input)="count=myInput.value" #myInput>
+<hr>
+<div style="padding: 7px;">
   Count: {{ count }}
-  <button (click)="increment()">+</button>
-  <button (click)="decrement()">-</button>
+  <button md-raised-button (click)="increment()">+</button>
+  <button md-raised-button (click)="decrement()">-</button>
   <hr>
   <h1>Users</h1>
-  <button (click)="fetchUsers()">Hämta användare</button>
+  <button md-raised-button (click)="fetchUsers()">Hämta användare</button>
   <ul>
     <li *ngFor="let user of users">{{user.name}}</li>
   </ul>
   <h1>Posts</h1>
-  <button (click)="fetchPosts()">Hämta posts</button>
+  <button md-raised-button (click)="fetchPosts()">Hämta posts</button>
   <ul>
     <li *ngFor="let post of posts">
       <strong>{{post.title}}</strong><br>
@@ -17,3 +23,17 @@
     </li>
   </ul>
 </div>
+
+<detail [(value)]="count"></detail>
+
+<div>ObservableStuff: {{getObservableStuff()|async}}</div>
+
+
+<div ngForm #myForm="ngForm">
+  <jb-date-input name="myDate" [(ngModel)]="myDate"></jb-date-input>
+  <hr>
+  My date: {{myDate|json}}<br>
+  Date offset: {{myDate?.getTimezoneOffset()|json}}<br>
+  Form: {{myForm?.form?.controls['myDate']?.valid|json}}
+</div>
+

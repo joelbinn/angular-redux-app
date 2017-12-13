@@ -9,6 +9,10 @@ import {
   LoadPostsEpic,
   PostData
 } from './load-posts-epic';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/takeWhile';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/delay';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +21,7 @@ import {
 })
 export class AppComponent extends SupervisedSubscriptions {
   count: number;
+  myDate: Date;
   users: any[] = [];
   posts: any[] = [];
 
@@ -47,5 +52,9 @@ export class AppComponent extends SupervisedSubscriptions {
 
   decrement() {
     this.counterActions.decrement();
+  }
+
+  getObservableStuff():Observable<any> {
+    return Observable.of(1,2,3,4,5,6,7,8,9);
   }
 }

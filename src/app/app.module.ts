@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   DevToolsExtension,
   NgRedux,
@@ -23,15 +24,30 @@ import {
   ReducersMapObject
 } from 'redux';
 import { LoadPostsEpic } from './load-posts-epic';
+import {
+  MdButtonModule,
+  MdToolbarModule
+} from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { DetailComponent } from './detail.component';
+import { DateInputComponent } from './date-input.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    DetailComponent,
+    DateInputComponent,
   ],
   imports: [
     BrowserModule,
     NgReduxModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MdButtonModule,
+    MdToolbarModule,
+    FlexLayoutModule,
+    FormsModule
   ],
   providers: [
     CounterActions,
